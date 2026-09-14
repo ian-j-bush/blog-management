@@ -10,4 +10,8 @@ public class AccountService {
     public AccountService(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
+
+    public Account getAccountById(Long id){
+        return accountRepository.findById(id).orElseThrow();
+    }
 }
