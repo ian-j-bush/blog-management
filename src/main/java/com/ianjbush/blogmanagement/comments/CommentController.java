@@ -1,10 +1,7 @@
 package com.ianjbush.blogmanagement.comments;
 
-import com.ianjbush.blogmanagement.account.Account;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController("/api/v1/comments")
 public class CommentController {
@@ -15,8 +12,20 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-    @PostMapping
-    public ResponseEntity<Account> addComment(@RequestBody Comment comment) {
-        return null;
+    @GetMapping("/{commentId}")
+    public Comment getComment(@PathVariable Long commentId) {
+        return commentService.getComment(commentId);
+    }
+
+    @PutMapping("/{commentId}")
+    public ResponseEntity<Comment> updateComment(@PathVariable Long commentId, @RequestBody Comment comment) {
+        commentService.updateComment(comment, commentId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<Comment> deleteComment(@PathVariable Long commentId) {
+        commentService.deleteComment(commentId);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -37,4 +37,8 @@ public class BlogPostService {
 
         return ResponseEntity.ok().build();
     }
+
+    public BlogPost createBlogPost(BlogPost blogPost) {
+        return blogPostRepository.save(blogPost);
+    }
 }
