@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
-@RestController("/account")
+@RestController("/api/v1/users")
 public class AccountController {
 
     private final AccountService accountService;
@@ -28,10 +28,5 @@ public class AccountController {
         return blogPostService.getBlogPostsByAccountId(id);
     }
 
-    @PostMapping
-    public ResponseEntity<Account> register(@RequestBody Account account) {
-        //TODO: Complete method
 
-        return ResponseEntity.ok(account);
-    }
 }
