@@ -33,7 +33,7 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    public List<Comment> getCommentsOnBlogPost(Long postId) {
+    public List<CommentDTO> getCommentsOnBlogPost(Long postId) {
         //TODO: Adjust repository to create method
         return new ArrayList<>();
     }

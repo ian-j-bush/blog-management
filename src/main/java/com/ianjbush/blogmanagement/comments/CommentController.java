@@ -3,7 +3,8 @@ package com.ianjbush.blogmanagement.comments;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/api/v1/comments")
+@RestController
+@RequestMapping("/api/v1/comments")
 public class CommentController {
 
     private final CommentService commentService;

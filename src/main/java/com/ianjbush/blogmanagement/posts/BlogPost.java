@@ -5,6 +5,7 @@ import com.ianjbush.blogmanagement.comments.Comment;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -19,6 +20,9 @@ public class BlogPost {
 
     @Column(nullable = false)
     private String content;
+
+    @Column(nullable = false)
+    private LocalDateTime createdDate;
 
     @ManyToOne
     @JoinColumn(name = "account_id", nullable = false)

@@ -5,22 +5,27 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class BlogPostService {
 
     private final BlogPostRepository blogPostRepository;
+    private final BlogPostMapper blogPostMapper;
 
-    public BlogPostService(BlogPostRepository blogPostRepository) {
+    public BlogPostService(BlogPostRepository blogPostRepository, BlogPostMapper blogPostMapper) {
         this.blogPostRepository = blogPostRepository;
+        this.blogPostMapper = blogPostMapper;
     }
 
-    public BlogPost getBlogPostById(Long id) {
-        return blogPostRepository.findById(id).orElseThrow();
+    public BlogPostDTO getBlogPostById(Long id) {
+        return blogPostMapper.blogPostToBlogPostDTO(blogPostRepository.findById(id).orElse(null));
     }
 
-    public Set<BlogPost> getBlogPostsByAccountId(Long accountId) {
-        return blogPostRepository.findAllByAccountIdOrderByCreatedDateDesc(accountId);
+    public Set<BlogPostDTO> getBlogPostsByAccountId(Long accountId) {
+        Set<BlogPost> blogPosts = blogPostRepository.findAllByAccountIdOrderByCreatedDateDesc(accountId);
+
+        return blogPosts.stream().map(blogPostMapper::blogPostToBlogPostDTO).collect(Collectors.toSet());
     }
 
     public List<BlogPost> getAllBlogPosts() {
