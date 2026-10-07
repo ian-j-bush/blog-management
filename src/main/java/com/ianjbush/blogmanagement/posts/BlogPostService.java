@@ -4,7 +4,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,8 +20,8 @@ public class BlogPostService {
         this.blogPostMapper = blogPostMapper;
     }
 
-    public BlogPostDTO getBlogPostById(Long id) {
-        return blogPostMapper.blogPostToBlogPostDTO(blogPostRepository.findById(id).orElse(null));
+    public Optional<BlogPostDTO> getBlogPostById(Long id) {
+        return Optional.ofNullable(blogPostMapper.blogPostToBlogPostDTO(blogPostRepository.findById(id).orElse(null)));
     }
 
     public Set<BlogPostDTO> getBlogPostsByAccountId(Long accountId) {
@@ -32,18 +34,31 @@ public class BlogPostService {
         return blogPostRepository.findAll();
     }
 
-    public ResponseEntity<BlogPost> updateBlogPost(BlogPost blogPost) {
+    public Optional<BlogPostDTO> updateBlogPost(Long id, BlogPost blogPost) {
         //TODO: Create method
-        return null;
+        AtomicReference<Optional<BlogPostDTO>> optionalBlogPost = new AtomicReference<>();
+
+        blogPostRepository.findById(id).ifPresentOrElse(foundBlogPost -> {
+            foundBlogPost.setTitle(blogPost.getTitle());
+            foundBlogPost.setContent(blogPost.getContent());
+
+            optionalBlogPost.set(Optional.of(blogPostMapper.blogPostToBlogPostDTO(blogPostRepository.save(foundBlogPost))));
+        }, () -> {
+            optionalBlogPost.set(Optional.empty());
+        });
+
+        return optionalBlogPost.get();
     }
 
-    public ResponseEntity<BlogPost> deleteBlogPost(Long postId) {
-        blogPostRepository.deleteById(postId);
-
-        return ResponseEntity.ok().build();
+    public Boolean deleteBlogPost(Long postId) {
+        if( blogPostRepository.existsById(postId)) {
+            blogPostRepository.deleteById(postId);
+            return true;
+        }
+        return false;
     }
 
-    public BlogPost createBlogPost(BlogPost blogPost) {
-        return blogPostRepository.save(blogPost);
+    public BlogPostDTO createBlogPost(BlogPostDTO blogPost) {
+        return blogPostMapper.blogPostToBlogPostDTO(blogPostRepository.save(blogPostMapper.blogPostDTOToBlogPost(blogPost)));
     }
 }

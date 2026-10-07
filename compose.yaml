@@ -1,1 +1,10 @@
-services: { }
+services:
+  mysql:
+    image: 'mysql:latest'
+    environment:
+      - 'MYSQL_DATABASE=blog_system'
+      - 'MYSQL_PASSWORD=${unimplemented}'
+      - 'MYSQL_ROOT_PASSWORD=${unimplemented}'
+      - 'MYSQL_USER=${unimplemented}'
+    ports:
+      - '3306'
