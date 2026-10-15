@@ -1,6 +1,7 @@
 package com.ianjbush.blogmanagement.auth;
 
 import com.ianjbush.blogmanagement.account.Account;
+import jakarta.annotation.Nullable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     @PostMapping("/login")
-    public ResponseEntity<Account> login(@RequestBody Account account){
+    public ResponseEntity<Account> login(@RequestBody(required = false) Account account){
         //TODO: Complete Method
         return ResponseEntity.ok(account);
     }
