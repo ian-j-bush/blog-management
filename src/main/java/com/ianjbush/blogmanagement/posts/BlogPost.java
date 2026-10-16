@@ -10,6 +10,7 @@ import java.util.Set;
 
 @Entity
 @Data
+@Table(name = "blog_posts")
 public class BlogPost {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

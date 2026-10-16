@@ -1,9 +1,7 @@
 package com.ianjbush.blogmanagement.account;
 
-import com.ianjbush.blogmanagement.posts.BlogPost;
 import com.ianjbush.blogmanagement.posts.BlogPostDTO;
 import com.ianjbush.blogmanagement.posts.BlogPostService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;

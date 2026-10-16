@@ -1,6 +1,7 @@
 package com.ianjbush.blogmanagement.auth;
 
 import com.ianjbush.blogmanagement.account.Account;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,10 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/auth")
 public class AuthController {
 
+    @Autowired
+    private AuthService authService;
+
     @PostMapping("/login")
-    public ResponseEntity<Account> login(@RequestBody Account account){
+    public ResponseEntity<Account> login(@RequestBody LoginDTO dto) {
+        authService.login(dto);
         //TODO: Complete Method
-        return ResponseEntity.ok(account);
+        return ResponseEntity.ok(null);
     }
 
 //    @PostMapping
@@ -24,8 +29,8 @@ public class AuthController {
 //    }
 
     @PostMapping("/register")
-    public ResponseEntity<Account> register(@RequestBody Account account) {
-        //TODO: Complete method and create DTOs
+    public ResponseEntity<Account> register(@RequestBody RegistrationDTO dto) {
+        Account account = authService.register(dto);
 
         return ResponseEntity.ok(account);
     }
