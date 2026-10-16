@@ -2,6 +2,8 @@ package com.ianjbush.blogmanagement.account;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AccountService {
 
@@ -11,7 +13,11 @@ public class AccountService {
         this.accountRepository = accountRepository;
     }
 
-    public Account getAccountById(Long id){
+    public Account getAccountById(Long id) {
         return accountRepository.findById(id).orElseThrow();
+    }
+
+    public List<Account> getAllAccounts() {
+        return accountRepository.findAll();
     }
 }

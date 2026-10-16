@@ -4,6 +4,7 @@ import com.ianjbush.blogmanagement.posts.BlogPostDTO;
 import com.ianjbush.blogmanagement.posts.BlogPostService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -28,5 +29,8 @@ public class AccountController {
         return blogPostService.getBlogPostsByAccountId(id);
     }
 
-
+    @GetMapping
+    public List<Account> getAccounts(){
+        return accountService.getAllAccounts();
+    }
 }
