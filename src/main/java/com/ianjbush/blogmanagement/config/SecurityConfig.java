@@ -31,8 +31,8 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(requests -> requests.anyRequest().permitAll())
                 .cors(Customizer.withDefaults())
-                .csrf(AbstractHttpConfigurer::disable);
-        //TODO: Add security methods
+                .csrf(AbstractHttpConfigurer::disable)
+                .formLogin(Customizer.withDefaults());
         return http.build();
     }
 
