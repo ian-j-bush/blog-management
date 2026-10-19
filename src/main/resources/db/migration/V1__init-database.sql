@@ -12,7 +12,7 @@ create table if not exists accounts (
     password VARCHAR(255) NOT NULL,
     role VARCHAR(32) NOT NULL,
     username VARCHAR(255) UNIQUE NOT NULL
-);
+) engine = InnoDB;
 
 create table if not exists blog_posts (
     id  BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -21,7 +21,7 @@ create table if not exists blog_posts (
     title VARCHAR(255) NOT NULL,
     account_id BIGINT NOT NULL,
     FOREIGN KEY (account_id) REFERENCES accounts(id)
-);
+) engine = InnoDB;
 
 create table comments (
     id  BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -31,4 +31,4 @@ create table comments (
     post_id BIGINT NOT NULL,
     FOREIGN KEY (account_id) REFERENCES accounts(id),
     FOREIGN KEY (post_id) REFERENCES blog_posts(id)
-);
+) engine = InnoDB;

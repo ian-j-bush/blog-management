@@ -10,11 +10,10 @@ import java.util.Set;
 @Data
 public class AccountDTO {
 
+    private Long id;
     private String username;
     private String email;
     private String role;
     private LocalDateTime creationDate;
     private String accountStatus;
-    private Set<BlogPostDTO> posts;
-    private Set<CommentDTO> comments;
 }

@@ -48,28 +48,27 @@ public class BlogPostController {
     }
 
     @PostMapping("/{postId}/comment")
-    public ResponseEntity<CommentDTO> createComment(@PathVariable Long postId, @RequestBody Comment comment) {
-        commentService.postNewComment(comment);
+    public ResponseEntity<CommentDTO> createComment(@PathVariable Long postId, @RequestBody CommentDTO comment) {
+        CommentDTO savedComment = commentService.postNewComment(comment);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", "/api/v1/posts/" + postId + "/" + comment.getId().toString());
+        headers.add("Location", "/api/v1/posts/" + postId + "/" + savedComment.getId().toString());
 
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
     @PutMapping("/{postId}")
     public ResponseEntity<BlogPost> updateBlogPost(@PathVariable Long postId, @RequestBody BlogPost blogPost) throws Exception {
-        if(blogPostService.updateBlogPost(postId, blogPost).isEmpty()) {
+        if (blogPostService.updateBlogPost(postId, blogPost).isEmpty()) {
             throw new Exception();
         }
-
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{postId}")
     public ResponseEntity<BlogPost> deleteBlogPost(@PathVariable Long postId) throws Exception {
-        if(!blogPostService.deleteBlogPost(postId)) {
+        if (!blogPostService.deleteBlogPost(postId)) {
             throw new Exception("Blog Post Not Found: (Implement Further)");
         }
 

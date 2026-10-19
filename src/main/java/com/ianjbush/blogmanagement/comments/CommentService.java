@@ -5,35 +5,52 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class CommentService {
 
     private final CommentRepository commentRepository;
+    private final CommentMapper commentMapper;
 
-    public CommentService(CommentRepository commentRepository) {
+    public CommentService(CommentRepository commentRepository, CommentMapper commentMapper) {
         this.commentRepository = commentRepository;
+        this.commentMapper = commentMapper;
     }
 
-    public Comment getComment(Long commentId) {
-        return commentRepository.findById(commentId).orElseThrow();
+    public CommentDTO getComment(Long commentId) {
+        Comment foundComment = commentRepository.findById(commentId).orElseThrow();
+        return commentMapper.commentToCommentDTO(foundComment);
     }
 
-    public Comment updateComment(Comment comment, Long commentId) {
-        return null;
+    public Optional<CommentDTO> updateComment(CommentDTO comment, Long commentId) {
+        AtomicReference<Optional<CommentDTO>> commentReference = new AtomicReference<>();
+
+        commentRepository.findById(commentId).ifPresentOrElse(foundComment -> {
+            foundComment.setCommentBody(comment.getCommentBody());
+            commentReference.set(Optional.of(commentMapper.commentToCommentDTO(foundComment)));
+        }, () -> {
+            commentReference.set(Optional.empty());
+        });
+
+        return commentReference.get();
     }
 
-    public ResponseEntity<Comment> deleteComment(Long commentId) {
-        commentRepository.deleteById(commentId);
-        return ResponseEntity.noContent().build();
+    public Boolean deleteComment(Long commentId) {
+        if (commentRepository.existsById(commentId)) {
+            commentRepository.deleteById(commentId);
+            return true;
+        }
+
+        return false;
     }
 
-    public Comment postNewComment(Comment comment) {
-        return commentRepository.save(comment);
+    public CommentDTO postNewComment(CommentDTO comment) {
+        return commentMapper.commentToCommentDTO(commentRepository.save(commentMapper.commentDTOToComment(comment)));
     }
 
     public List<CommentDTO> getCommentsOnBlogPost(Long postId) {
-        //TODO: Adjust repository to create method
-        return new ArrayList<>();
+        return commentRepository.getCommentsByPostId(postId).stream().map(commentMapper::commentToCommentDTO).toList();
     }
 }

@@ -30,10 +30,6 @@ public class AuthService implements UserDetailsService {
         return account;
     }
 
-    public void login( LoginDTO dto) {
-        // TODO: Method Stub
-    }
-
     public Account register(@RequestBody RegistrationDTO dto) {
         Account account = new Account();
 
@@ -44,7 +40,7 @@ public class AuthService implements UserDetailsService {
         }
 
         account.setUsername(dto.username());
-        account.setPassword(passwordEncoder.encode(dto.password())); //TODO: encrypt for database storage
+        account.setPassword(passwordEncoder.encode(dto.password()));
         account.setEmail(dto.email());
         account.setFirstName(dto.firstName());
         account.setLastName(dto.lastName());

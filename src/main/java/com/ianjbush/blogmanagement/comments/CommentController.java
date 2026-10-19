@@ -1,5 +1,6 @@
 package com.ianjbush.blogmanagement.comments;
 
+import com.ianjbush.blogmanagement.config.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,19 +15,23 @@ public class CommentController {
     }
 
     @GetMapping("/{commentId}")
-    public Comment getComment(@PathVariable Long commentId) {
+    public CommentDTO getComment(@PathVariable Long commentId) {
         return commentService.getComment(commentId);
     }
 
     @PutMapping("/{commentId}")
-    public ResponseEntity<Comment> updateComment(@PathVariable Long commentId, @RequestBody Comment comment) {
-        commentService.updateComment(comment, commentId);
+    public ResponseEntity<CommentDTO> updateComment(@RequestBody CommentDTO comment, @PathVariable Long commentId) {
+        if( commentService.updateComment(comment, commentId).isEmpty()) {
+            throw new NotFoundException("Comment not found");
+        }
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{commentId}")
     public ResponseEntity<Comment> deleteComment(@PathVariable Long commentId) {
-        commentService.deleteComment(commentId);
+        if(!commentService.deleteComment(commentId)) {
+            throw new NotFoundException("Comment not found");
+        }
         return ResponseEntity.noContent().build();
     }
 }
