@@ -15,12 +15,12 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    @PostMapping("/login")
-    public ResponseEntity<Account> login(@RequestBody LoginDTO dto) {
-        authService.login(dto);
-        //TODO: Complete Method
-        return ResponseEntity.ok(null);
-    }
+    //@PostMapping("/login")
+    //public ResponseEntity<Account> login(@RequestBody LoginDTO dto) {
+    //    authService.login(dto);
+    //    //TODO: Complete Method
+    //    return ResponseEntity.ok(null);
+    //}
 
 //    @PostMapping
 //    public ResponseEntity<Account> logout(@RequestBody Account account){
