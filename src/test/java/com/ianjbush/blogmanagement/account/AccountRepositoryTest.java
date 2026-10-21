@@ -11,4 +11,14 @@ import java.util.List;
 @DataJpaTest
 class AccountRepositoryTest {
 
+    @Autowired
+    private AccountRepository accountRepository;
+
+    @BeforeEach
+    void setUp() {
+    }
+
+    @Test
+    void findAll() {
+    }
 }

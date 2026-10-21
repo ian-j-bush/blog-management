@@ -5,7 +5,7 @@ drop table if exists comments;
 create table if not exists accounts (
     id  BIGINT PRIMARY KEY AUTO_INCREMENT,
     account_status VARCHAR(32) NOT NULL,
-    creation_date DATETIME NOT NULL,
+    creation_date TIMESTAMP NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
@@ -17,7 +17,7 @@ create table if not exists accounts (
 create table if not exists blog_posts (
     id  BIGINT PRIMARY KEY AUTO_INCREMENT,
     content LONGTEXT NOT NULL,
-    created_date DATETIME NOT NULL,
+    created_date TIMESTAMP NOT NULL,
     title VARCHAR(255) NOT NULL,
     account_id BIGINT NOT NULL,
     FOREIGN KEY (account_id) REFERENCES accounts(id)
@@ -26,7 +26,7 @@ create table if not exists blog_posts (
 create table comments (
     id  BIGINT PRIMARY KEY AUTO_INCREMENT,
     comment_body LONGTEXT NOT NULL,
-    creation_date DATETIME NOT NULL,
+    creation_date TIMESTAMP NOT NULL,
     account_id BIGINT NOT NULL,
     post_id BIGINT NOT NULL,
     FOREIGN KEY (account_id) REFERENCES accounts(id),
