@@ -10,7 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(BlogPostController.class)
 @ExtendWith(MockitoExtension.class)
-public class BlogPostControllerTest {
+public class BlogPostControllerIT {
 
     @Autowired
     private MockMvc mockMvc;
